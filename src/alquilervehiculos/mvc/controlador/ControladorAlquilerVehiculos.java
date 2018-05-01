@@ -19,7 +19,7 @@ import java.util.List;
 public class ControladorAlquilerVehiculos implements IControladorAlquilerVehiculos
 {
 
-    private IModeloAlquilerVehiculos modelo;
+    public IModeloAlquilerVehiculos modelo;
     private IVistaAlquilerVehiculos vista;
 
     public ControladorAlquilerVehiculos(IModeloAlquilerVehiculos modelo, IVistaAlquilerVehiculos vista)

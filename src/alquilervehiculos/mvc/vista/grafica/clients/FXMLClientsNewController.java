@@ -5,6 +5,10 @@
  */
 package alquilervehiculos.mvc.vista.grafica.clients;
 
+import alquilervehiculos.mvc.vista.grafica.Mensajes;
+import alquilervehiculos.mvc.modelo.dominio.Cliente;
+import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
+import alquilervehiculos.mvc.vista.grafica.JavaFXMainStage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -35,11 +40,22 @@ public class FXMLClientsNewController implements Initializable
     private Button btn_accept, btn_cancel;
 
     @FXML
+    private TextField tFNombre, tFDni, tFCalle, tFLocalidad, tFCodigoP;
+
+    @FXML
     private void handleScreenButtonsAction(ActionEvent event) throws IOException
     {
         if (event.getSource() == btn_accept)
         {
-
+            try
+            {
+                JavaFXMainStage.controlador.anadirCliente(new Cliente(tFNombre.getText(), tFDni.getText(), tFCalle.getText(), tFLocalidad.getText(), tFCodigoP.getText()));
+                Mensajes.mostrarInfo("Clientes", "Cliente añadido");
+                JavaFXMainStage.controlador.modelo.escribirClientes();
+            } catch (ExcepcionAlquilerVehiculos e)
+            {
+                Mensajes.mostrarError("Clientes", e.getMessage());
+            }
         } else if (event.getSource() == btn_cancel)
         {
             Parent root1 = FXMLLoader.load(getClass().getResource("../FXMLTopBar.fxml"));

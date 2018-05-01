@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  *
  * @author lol
  */
-class DireccionPostal implements Serializable
+public class DireccionPostal implements Serializable
 {
 
     private static final long serialVersionUID = 1L;

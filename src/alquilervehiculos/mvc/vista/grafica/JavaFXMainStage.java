@@ -27,7 +27,7 @@ public class JavaFXMainStage extends Application implements IVistaAlquilerVehicu
     private double xOffset = 0;
     private double yOffset = 0;
 
-    public static IControladorAlquilerVehiculos controlador;
+    public static ControladorAlquilerVehiculos controlador;
 
     @Override
     public void start(Stage stage) throws Exception
