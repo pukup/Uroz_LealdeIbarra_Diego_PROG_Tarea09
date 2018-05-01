@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package alquilervehiculos.mvc.vista;
+package alquilervehiculos.mvc.vista.textual;
 
+import alquilervehiculos.mvc.vista.IVistaAlquilerVehiculos;
 import alquilervehiculos.mvc.controlador.ControladorAlquilerVehiculos;
 import alquilervehiculos.mvc.modelo.dominio.Alquiler;
 import alquilervehiculos.mvc.modelo.dominio.Cliente;
 import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
 import alquilervehiculos.mvc.modelo.dominio.vehiculo.Vehiculo;
-import alquilervehiculos.mvc.vista.utilidades.Consola;
+import alquilervehiculos.mvc.vista.textual.utilidades.Consola;
 
 /**
  *
@@ -45,14 +46,11 @@ public class IUTextual implements IVistaAlquilerVehiculos
         } while (ordinalOpcion != Opcion.SALIR.ordinal());
     }
 
-    @Override
     public void salir()
     {
         controlador.salir();
         System.out.println("Nos vemos en la tele.");
     }
-
-    @Override
 
     public void abrirAlquiler()
     {
@@ -77,7 +75,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
 
-    @Override
     public void cerrarAlquiler()
     {
         Consola.mostrarCabecera("Cerrar alquiler.");
@@ -99,7 +96,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
 
-    @Override
     public void anadirCliente()
     {
         Consola.mostrarCabecera("Añadir cliente.");
@@ -114,7 +110,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
 
-    @Override
     public void anadirVehiculo()
     {
         Consola.mostrarCabecera("Añadir vehículo.");
@@ -129,7 +124,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
 
-    @Override
     public void borrarCliente()
     {
         Consola.mostrarCabecera("Borrar cliente.");
@@ -144,7 +138,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
 
-    @Override
     public void borrarVehiculo()
     {
         Consola.mostrarCabecera("Borrar vehículo.");
@@ -159,7 +152,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
 
-    @Override
     public void buscarCliente()
     {
         Consola.mostrarCabecera("Buscar cliente.");
@@ -175,7 +167,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
 
-    @Override
     public void buscarVehiculo()
     {
         Consola.mostrarCabecera("Buscar vehículo.");
@@ -191,7 +182,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
 
-    @Override
     public void listarAlquileres()
     {
         Consola.mostrarCabecera("Listado de alquileres.");
@@ -205,7 +195,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         System.out.println("");
     }
 
-    @Override
     public void listarAlquileresAbiertos()
     {
         Consola.mostrarCabecera("Alquileres abiertos.");
@@ -216,7 +205,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         System.out.println("");
     }
 
-    @Override
     public void listarAlquileresCliente()
     {
         String dni = Consola.leerDni();
@@ -234,7 +222,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
     
-        @Override
     public void listarAlquileresVehiculo()
     {
         String matricula = Consola.leerMatricula();
@@ -252,7 +239,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         }
     }
 
-    @Override
     public void listarClientes()
     {
         Consola.mostrarCabecera("Listado de clientes.");
@@ -266,7 +252,6 @@ public class IUTextual implements IVistaAlquilerVehiculos
         System.out.println("");
     }
 
-    @Override
     public void listarVehiculos()
     {
         Consola.mostrarCabecera("Listado de Vehículos.");

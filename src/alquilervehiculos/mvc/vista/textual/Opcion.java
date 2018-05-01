@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package alquilervehiculos.mvc.vista;
+package alquilervehiculos.mvc.vista.textual;
 
 import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
 

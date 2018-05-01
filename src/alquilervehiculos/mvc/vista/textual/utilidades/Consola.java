@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package alquilervehiculos.mvc.vista.utilidades;
+package alquilervehiculos.mvc.vista.textual.utilidades;
 
 import alquilervehiculos.mvc.modelo.dominio.Cliente;
 import alquilervehiculos.mvc.modelo.dominio.vehiculo.TipoVehiculo;
 import alquilervehiculos.mvc.modelo.dominio.vehiculo.Vehiculo;
-import alquilervehiculos.mvc.vista.Opcion;
+import alquilervehiculos.mvc.vista.textual.Opcion;
 
 /**
  *

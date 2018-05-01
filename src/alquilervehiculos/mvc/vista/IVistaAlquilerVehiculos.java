@@ -13,39 +13,6 @@ import alquilervehiculos.mvc.controlador.ControladorAlquilerVehiculos;
  */
 public interface IVistaAlquilerVehiculos
 {
-
-    void abrirAlquiler();
-
-    void anadirCliente();
-
-    void anadirVehiculo();
-
-    void borrarCliente();
-
-    void borrarVehiculo();
-
-    void buscarCliente();
-
-    void buscarVehiculo();
-
-    void cerrarAlquiler();
-
+    void setControlador(ControladorAlquilerVehiculos controlador);   
     void comenzar();
-
-    void listarAlquileres();
-
-    void listarAlquileresAbiertos();
-
-    void listarAlquileresCliente();
-
-    void listarAlquileresVehiculo();
-
-    void listarClientes();
-
-    void listarVehiculos();
-
-    void salir();
-
-    void setControlador(ControladorAlquilerVehiculos controlador);
-
 }
