@@ -5,6 +5,12 @@
  */
 package alquilervehiculos.mvc.vista.grafica.vehicles;
 
+import alquilervehiculos.mvc.modelo.dominio.Cliente;
+import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
+import alquilervehiculos.mvc.modelo.dominio.vehiculo.TipoVehiculo;
+import alquilervehiculos.mvc.modelo.dominio.vehiculo.Vehiculo;
+import alquilervehiculos.mvc.vista.grafica.JavaFXMainStage;
+import alquilervehiculos.mvc.vista.grafica.Mensajes;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -32,6 +39,9 @@ public class FXMLVehiclesNewController implements Initializable
     private double yOffset = 0;
 
     @FXML
+    private TextField tFTipo, tFMarca, tFModelo, tFMatricula, tFCilindrada, tFNumeroP, tFPma, tFBuscar;
+
+    @FXML
     private Button btn_accept, btn_cancel;
 
     @FXML
@@ -39,8 +49,18 @@ public class FXMLVehiclesNewController implements Initializable
     {
         if (event.getSource() == btn_accept)
         {
-
-        } else if (event.getSource() == btn_cancel)
+            try
+            {
+                Vehiculo vehiculo = null;
+                JavaFXMainStage.controlador.anadirVehiculo(vehiculo = TipoVehiculo.getTipoVehiculoSegunOrdinal(Integer.parseInt(tFTipo.getText())).getInstancia(tFMatricula.getText(), tFMarca.getText(), tFModelo.getText(), Integer.parseInt(tFCilindrada.getText()), Integer.parseInt(tFNumeroP.getText()), Integer.parseInt(tFPma.getText())));
+                Mensajes.mostrarInfo("Vehiculos", "Vehiuclo añadido");
+                JavaFXMainStage.controlador.modelo.escribirVehiculos();
+            } catch (ExcepcionAlquilerVehiculos e)
+            {
+                Mensajes.mostrarError("Vehiculos", e.getMessage());
+            }
+        } else if (event.getSource()
+                == btn_cancel)
         {
             Parent root1 = FXMLLoader.load(getClass().getResource("../FXMLTopBar.fxml"));
             Scene scene1 = new Scene(root1);

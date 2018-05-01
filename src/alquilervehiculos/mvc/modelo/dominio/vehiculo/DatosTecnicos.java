@@ -12,7 +12,7 @@ import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
  *
  * @author lol
  */
-class DatosTecnicos implements Serializable
+public class DatosTecnicos implements Serializable
 {
 
     private final static long serialVersionUID = 1L;
