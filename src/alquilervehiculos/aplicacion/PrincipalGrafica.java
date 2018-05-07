@@ -9,6 +9,8 @@ import alquilervehiculos.mvc.controlador.ControladorAlquilerVehiculos;
 import alquilervehiculos.mvc.controlador.IControladorAlquilerVehiculos;
 import alquilervehiculos.mvc.modelo.IModeloAlquilerVehiculos;
 import alquilervehiculos.mvc.modelo.ModeloAlquilerVehiculos;
+import alquilervehiculos.mvc.modelo.dominio.Alquiler;
+import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
 import alquilervehiculos.mvc.vista.IVistaAlquilerVehiculos;
 import alquilervehiculos.mvc.vista.grafica.JavaFXMainStage;
 
@@ -26,5 +28,6 @@ public class PrincipalGrafica
         IControladorAlquilerVehiculos controlador = new ControladorAlquilerVehiculos(modelo, vista);
 
         controlador.comenzar();
+
     }
 }

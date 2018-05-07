@@ -5,6 +5,7 @@
  */
 package alquilervehiculos.mvc.modelo.dominio.vehiculo;
 
+import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
 import java.io.Serializable;
 
 /**
@@ -21,7 +22,7 @@ public class Turismo extends Vehiculo
         super(vehiculo);
     }
 
-    public Turismo(String matricula, String marca, String modelo, int cilindrada, int numeroPlazas, int pma)
+    public Turismo(String matricula, String marca, String modelo, int cilindrada, int numeroPlazas, int pma) throws ExcepcionAlquilerVehiculos
     {
         super(matricula, marca, modelo, cilindrada, numeroPlazas, pma);
     }

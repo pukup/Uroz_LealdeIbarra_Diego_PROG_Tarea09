@@ -59,9 +59,9 @@ public class ControladorAlquilerVehiculos implements IControladorAlquilerVehicul
     }
 
     @Override
-    public void anadirVehiculo(Vehiculo turismo)
+    public void anadirVehiculo(Vehiculo vehiculo)
     {
-        modelo.anadirVehiculo(turismo);
+        modelo.anadirVehiculo(vehiculo);
     }
 
     @Override
@@ -92,6 +92,12 @@ public class ControladorAlquilerVehiculos implements IControladorAlquilerVehicul
     public Vehiculo buscarVehiculo(String matricula)
     {
         return modelo.buscarVehiculo(matricula);
+    }
+    
+    @Override
+    public Alquiler buscarAlquiler(String matricula)
+    {
+        return modelo.buscarAlquiler(matricula);
     }
 
     @Override

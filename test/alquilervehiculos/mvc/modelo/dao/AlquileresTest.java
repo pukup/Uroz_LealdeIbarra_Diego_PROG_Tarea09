@@ -5,23 +5,18 @@
  */
 package alquilervehiculos.mvc.modelo.dao;
 
-import alquilervehiculos.mvc.modelo.dao.Alquileres;
-import static alquilervehiculos.mvc.modelo.dao.ClientesTest.c1;
-import static alquilervehiculos.mvc.modelo.dao.ClientesTest.cs1;
 import alquilervehiculos.mvc.modelo.dominio.Alquiler;
 import alquilervehiculos.mvc.modelo.dominio.Cliente;
-import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
 import alquilervehiculos.mvc.modelo.dominio.vehiculo.Turismo;
 import alquilervehiculos.mvc.modelo.dominio.vehiculo.Vehiculo;
-import org.junit.After;
-import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- *Pruebas de clase defectuosas.
+ * Pruebas de clase defectuosas.
+ *
  * @author lol
  */
 public class AlquileresTest
@@ -29,7 +24,7 @@ public class AlquileresTest
 
     public static Alquileres as1;
     public static Cliente c1;
-    public static Vehiculo v1;
+    public static Vehiculo v1, v2;
 
     /*
     Al crear nuevos arrays no se cierran los alquileres previamente almacenados
@@ -40,6 +35,7 @@ public class AlquileresTest
     {
         c1 = new Cliente("a", "00000000A", "a", "a", "00000");
         v1 = new Turismo("0000XXX", "a", "a", 1, 1, 1);
+        v2 = new Turismo("0000ZZZ", "a", "a", 1, 1, 1);
         as1 = new Alquileres();
     }
 
@@ -47,6 +43,8 @@ public class AlquileresTest
     public void setUp()
     {
         as1.abrir(c1, v1);
+        as1.abrir(c1, v2);
+
     }
 
 //    @Test
@@ -59,15 +57,15 @@ public class AlquileresTest
 //        assertEquals(0, as1.posicionAlquiler("0000XXX"));
 //    }
 //
-//    @Test
-//    public void testCerrar()
-//    {
-//        //arrange
-//        //act
-//        as1.cerrar("0000XXX");
-//        //assert
-//        assertEquals(0, as1.posicionAlquiler("0000XXX"));
-//    }
+    @Test
+    public void testCerrar()
+    {
+        //arrange
+        //act
+        as1.cerrar("0000XXX");
+        //assert
+        //assertEquals(0, as1.posicionAlquiler("0000ZZZ"));
+    }
 //
 //    @Test
 //    public void testCerrarCerrado()
@@ -112,16 +110,16 @@ public class AlquileresTest
 //        as1.cerrar("0000XXX");
 //        //assert
 //    }
-    
-    @Test
-    public void testListarAlquileresCliente()
-    {
-        //arrange
-        //act
-        for (Alquiler alquiler : as1.getAlquileresCliente("00000000A"))
-            {
-                    System.out.println(alquiler);
-            }
-            System.out.println("");
-    }
+//    
+//    @Test
+//    public void testListarAlquileresCliente()
+//    {
+//        //arrange
+//        //act
+//        for (Alquiler alquiler : as1.getAlquileresCliente("00000000A"))
+//            {
+//                    System.out.println(alquiler);
+//            }
+//            System.out.println("");
+//    }
 }

@@ -48,29 +48,46 @@ public class Alquileres
 
     public void cerrar(String matricula)
     {
-        if (alquilerEncontrado(matricula) && alquileres.get(posicionAlquiler(matricula)).getAlquilerAbierto())
+        if (alquilerEncontrado(matricula))
         {
             alquileres.get(posicionAlquiler(matricula)).close();
         } else
         {
-            throw new ExcepcionAlquilerVehiculos("Alquiler no encontrado o cerrado.");
+            throw new ExcepcionAlquilerVehiculos("Alquiler no encontrado.");
         }
     }
 
     private boolean alquilerEncontrado(String matricula)
     {
-        return alquileres.get(posicionAlquiler(matricula)).getVehiculo().getMatricula().equals(matricula);
+       return alquileres.get(posicionAlquiler(matricula)).getVehiculo().getMatricula().equals(matricula);
     }
 
     public int posicionAlquiler(String matricula)
     {
         int i = 0;
-        while (!alquileres.get(i).getVehiculo().getMatricula().equals(matricula)
-                && i < alquileres.size() - 1)
+        while (i < alquileres.size() - 1)
         {
-            i++;
+            if (alquileres.get(i).getVehiculo().getMatricula().equals(matricula)
+                    && alquileres.get(i).getAlquilerAbierto())
+            {
+                break;
+            } else
+            {
+                i++;
+            }
         }
         return i;
+    }
+
+    public Alquiler getAlquiler(String matricula)
+    {
+        if (alquilerEncontrado(matricula))
+        {
+            return alquileres.get(posicionAlquiler(matricula));
+        } else
+        {
+            throw new ExcepcionAlquilerVehiculos("Alquiler no encontrado.");
+        }
     }
 
     public List<Alquiler> getAlquileres()

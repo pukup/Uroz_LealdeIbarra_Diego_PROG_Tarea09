@@ -30,7 +30,7 @@ import javafx.stage.Stage;
  *
  * @author pc
  */
-public class FXMLClientsNewController implements Initializable
+public class FXMLClientsNewController
 {
 
     private double xOffset = 0;
@@ -58,41 +58,51 @@ public class FXMLClientsNewController implements Initializable
             }
         } else if (event.getSource() == btn_cancel)
         {
-            Parent root1 = FXMLLoader.load(getClass().getResource("../FXMLTopBar.fxml"));
-            Scene scene1 = new Scene(root1);
-            scene1.setFill(javafx.scene.paint.Color.TRANSPARENT);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            root1.setOnMousePressed(new EventHandler<MouseEvent>()
-            {
-                @Override
-                public void handle(MouseEvent event)
-                {
-                    xOffset = event.getSceneX();
-                    yOffset = event.getSceneY();
-                }
-            }
-            );
-
-            root1.setOnMouseDragged(new EventHandler<MouseEvent>()
-            {
-                @Override
-                public void handle(MouseEvent event)
-                {
-                    stage.setX(event.getScreenX() - xOffset);
-                    stage.setY(event.getScreenY() - yOffset);
-                }
-            }
-            );
-            stage.setScene(scene1);
-            stage.show();
+            loadScene(event, "../FXMLTopBar.fxml");
         }
+    }
+
+    private void loadScene(ActionEvent event, String fxmlString) throws IOException
+    {
+        Parent root1 = FXMLLoader.load(getClass().getResource(fxmlString));
+        Scene scene1 = new Scene(root1);
+        scene1.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        moveScene(root1, stage);
+        stage.setScene(scene1);
+        stage.show();
+    }
+
+    private void moveScene(Parent root1, Stage stage)
+    {
+        root1.setOnMousePressed(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        }
+        );
+        
+        root1.setOnMouseDragged(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        }
+        );
     }
 
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb)
+    @FXML
+    public void initialize()
     {
         // TODO
     }

@@ -30,6 +30,8 @@ public interface IControladorAlquilerVehiculos
     Cliente buscarCliente(String dni);
 
     Vehiculo buscarVehiculo(String matricula);
+    
+    Alquiler buscarAlquiler(String matricula);
 
     void cerrarAlquiler(String matricula);
 

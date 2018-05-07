@@ -114,6 +114,12 @@ public class ModeloAlquilerVehiculos implements IModeloAlquilerVehiculos
     {
         return vehiculos.getVehiculo(matricula);
     }
+    
+        @Override
+    public Alquiler buscarAlquiler(String matricula)
+    {
+        return alquileres.getAlquiler(matricula);
+    }
 
     @Override
     public void leerClientes()

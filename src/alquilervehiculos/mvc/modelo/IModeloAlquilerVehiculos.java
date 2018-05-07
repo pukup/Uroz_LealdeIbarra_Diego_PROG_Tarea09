@@ -43,7 +43,9 @@ public interface IModeloAlquilerVehiculos
 
     Cliente buscarCliente(String dni);
 
-    Vehiculo buscarVehiculo(String matricula);       
+    Vehiculo buscarVehiculo(String matricula);      
+    
+    Alquiler buscarAlquiler(String matricula);
 
     void leerClientes();
 

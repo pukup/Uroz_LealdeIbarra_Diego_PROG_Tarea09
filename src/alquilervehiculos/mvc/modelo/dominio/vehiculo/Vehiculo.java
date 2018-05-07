@@ -107,7 +107,13 @@ public abstract class Vehiculo implements Serializable
 
     private void setDatosTecnicos(int cilindrada, int numeroPlazas, int pma)
     {
+        try
+        {
         this.datosTecnicos = new DatosTecnicos(cilindrada, numeroPlazas, pma);
+        } catch (ExcepcionAlquilerVehiculos e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void setDisponible(boolean disponible)

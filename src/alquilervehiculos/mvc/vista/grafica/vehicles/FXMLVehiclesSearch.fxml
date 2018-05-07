@@ -11,19 +11,19 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3D4956;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alquilervehiculos.mvc.vista.grafica.vehicles.FXMLVehiclesSearchController">
    <children>
-      <Button fx:id="btn_accept" layoutX="109.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleScreenButtonsAction" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #3D4970;" text="BUSCAR">
+      <Button fx:id="btn_accept" layoutX="109.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleScreenButtonsAction" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #3D4970;" text="BUSCAR" textFill="#fffefe">
          <font>
             <Font name="Arial Black" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="btn_cancel" layoutX="374.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleScreenButtonsAction" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #3D4970;" text="SALIR">
+      <Button fx:id="btn_cancel" layoutX="374.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleScreenButtonsAction" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #3D4970;" text="VOLVER" textFill="#fffefe">
          <font>
             <Font name="Arial Black" size="18.0" />
          </font>
       </Button>
       <ListView fx:id="lista" layoutX="34.0" layoutY="50.0" onMouseClicked="#listClicked" prefHeight="187.0" prefWidth="265.0" />
       <TextField fx:id="tFBuscar" layoutX="92.0" layoutY="258.0" promptText="Matrícula" />
-      <Button fx:id="btn_delete" layoutX="526.0" layoutY="246.0" mnemonicParsing="false" onAction="#handleScreenButtonsAction" style="-fx-background-color: #3D4970;" text="Eliminar">
+      <Button fx:id="btn_delete" layoutX="515.0" layoutY="246.0" mnemonicParsing="false" onAction="#handleScreenButtonsAction" style="-fx-background-color: #3D4970;" text="Eliminar" textFill="#fffefe">
          <font>
             <Font name="Arial Black" size="12.0" />
          </font>

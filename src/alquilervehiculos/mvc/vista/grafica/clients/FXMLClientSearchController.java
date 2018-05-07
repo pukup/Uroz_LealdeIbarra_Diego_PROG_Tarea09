@@ -10,16 +10,12 @@ import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
 import alquilervehiculos.mvc.vista.grafica.JavaFXMainStage;
 import alquilervehiculos.mvc.vista.grafica.Mensajes;
 import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,7 +30,7 @@ import javafx.stage.Stage;
  *
  * @author pc
  */
-public class FXMLClientSearchController implements Initializable
+public class FXMLClientSearchController
 {
 
     private double xOffset = 0;
@@ -56,13 +52,8 @@ public class FXMLClientSearchController implements Initializable
         {
             if (Cliente.formatoDniCorrecto(tFBuscar.getText()))
             {
-                Cliente cliente = JavaFXMainStage.controlador.buscarCliente(tFBuscar.getText());
-                tFId.setText("Cliente -" + String.valueOf(cliente.getIdentificador() + "-"));
-                tFNombre.setText(cliente.getNombre());
-                tFDni.setText(cliente.getDni());
-                tFCalle.setText(cliente.getDireccionPostal().getCalle());
-                tFLocalidad.setText(cliente.getDireccionPostal().getLocalidad());
-                tFCodigoP.setText(cliente.getDireccionPostal().getCodigoPostal());
+                String dniCliente = tFBuscar.getText();
+                loadScene(event, "clientsretns/FXMLClientsRents.fxml");
             } else
             {
                 Mensajes.mostrarError("Clientes", "DNI incorrecto.");
@@ -71,64 +62,80 @@ public class FXMLClientSearchController implements Initializable
         {
             String dniString = lista.getSelectionModel().getSelectedItem().toString();
             JavaFXMainStage.controlador.borrarCliente(dniString);
+            JavaFXMainStage.controlador.modelo.escribirClientes();
             Mensajes.mostrarInfo("Clientes", "Eliminado.");
             listarClientes();
         } else if (event.getSource() == btn_cancel)
         {
-            Parent root1 = FXMLLoader.load(getClass().getResource("../FXMLTopBar.fxml"));
-            Scene scene1 = new Scene(root1);
-            scene1.setFill(javafx.scene.paint.Color.TRANSPARENT);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            root1.setOnMousePressed(new EventHandler<MouseEvent>()
-            {
-                @Override
-                public void handle(MouseEvent event)
-                {
-                    xOffset = event.getSceneX();
-                    yOffset = event.getSceneY();
-                }
-            }
-            );
-
-            root1.setOnMouseDragged(new EventHandler<MouseEvent>()
-            {
-                @Override
-                public void handle(MouseEvent event)
-                {
-                    stage.setX(event.getScreenX() - xOffset);
-                    stage.setY(event.getScreenY() - yOffset);
-                }
-            }
-            );
-            stage.setScene(scene1);
-            stage.show();
+            loadScene(event, "../FXMLTopBar.fxml");
         }
+    }
+
+    private void loadScene(ActionEvent event, String fxmlString) throws IOException
+    {
+        Parent root1 = FXMLLoader.load(getClass().getResource(fxmlString));
+        Scene scene1 = new Scene(root1);
+        scene1.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        moveScene(root1, stage);
+        stage.setScene(scene1);
+        stage.show();
+    }
+
+    private void moveScene(Parent root1, Stage stage)
+    {
+        root1.setOnMousePressed(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        }
+        );
+
+        root1.setOnMouseDragged(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        }
+        );
     }
 
     @FXML
     private void listClicked(MouseEvent event)
     {
-        String dniString = lista.getSelectionModel().getSelectedItem().toString();
         try
         {
+            String dniString = lista.getSelectionModel().getSelectedItem().toString();
             Cliente cliente = JavaFXMainStage.controlador.buscarCliente(dniString);
-            tFId.setText("Cliente -" + String.valueOf(cliente.getIdentificador() + "-"));
-            tFNombre.setText(cliente.getNombre());
-            tFDni.setText(cliente.getDni());
-            tFCalle.setText(cliente.getDireccionPostal().getCalle());
-            tFLocalidad.setText(cliente.getDireccionPostal().getLocalidad());
-            tFCodigoP.setText(cliente.getDireccionPostal().getCodigoPostal());
+            displayTextFields(cliente);
         } catch (ExcepcionAlquilerVehiculos e)
         {
             Mensajes.mostrarError("Clientes", e.getMessage());
         }
     }
 
+    private void displayTextFields(Cliente cliente)
+    {
+        tFId.setText("Cliente -" + String.valueOf(cliente.getIdentificador() + "-"));
+        tFNombre.setText(cliente.getNombre());
+        tFDni.setText(cliente.getDni());
+        tFCalle.setText(cliente.getDireccionPostal().getCalle());
+        tFLocalidad.setText(cliente.getDireccionPostal().getLocalidad());
+        tFCodigoP.setText(cliente.getDireccionPostal().getCodigoPostal());
+    }
+
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb)
+    @FXML
+    public void initialize()
     {
         listarClientes();
     }

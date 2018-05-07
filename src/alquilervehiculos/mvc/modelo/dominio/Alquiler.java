@@ -12,8 +12,7 @@ import alquilervehiculos.mvc.modelo.dominio.vehiculo.Vehiculo;
 
 /**
  *
- * @author lol
- * Dudo si el acceso a algunos métodos debería ser privado.
+ * @author lol Dudo si el acceso a algunos métodos debería ser privado.
  */
 public class Alquiler implements Serializable
 {
@@ -58,7 +57,7 @@ public class Alquiler implements Serializable
     {
         this.cliente = cliente;
         cliente.setAlquilerVigente(true);
-        
+
     }
 
     private void setVehiculo(Vehiculo vehiculo)
@@ -101,10 +100,10 @@ public class Alquiler implements Serializable
             return PRECIO_DIA * duracionAlquilerDias + vehiculo.getPrecioEspecifico();
         }
     }
-    
-        public static double getPrecioSegunDias(int duracionAlquilerDias, Vehiculo vehiculo)
+
+    public static double getPrecioSegunDias(int duracionAlquilerDias, Vehiculo vehiculo)
     {
-            return PRECIO_DIA * duracionAlquilerDias + vehiculo.getPrecioEspecifico();
+        return PRECIO_DIA * duracionAlquilerDias + vehiculo.getPrecioEspecifico();
     }
 
     public int getDuracionAlquiler()
@@ -118,7 +117,6 @@ public class Alquiler implements Serializable
         {
             throw new ExcepcionAlquilerVehiculos("Primero debe cerrar el alquiler.\n");
         }
-
     }
 
     public boolean getAlquilerAbierto()

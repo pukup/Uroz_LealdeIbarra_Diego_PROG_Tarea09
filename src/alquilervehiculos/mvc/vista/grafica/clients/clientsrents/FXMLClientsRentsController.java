@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package alquilervehiculos.mvc.vista.grafica.vehicles;
+package alquilervehiculos.mvc.vista.grafica.clients.clientsrents;
 
+import alquilervehiculos.mvc.modelo.dominio.Alquiler;
 import alquilervehiculos.mvc.modelo.dominio.Cliente;
 import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
-import alquilervehiculos.mvc.modelo.dominio.vehiculo.Vehiculo;
 import alquilervehiculos.mvc.vista.grafica.JavaFXMainStage;
 import alquilervehiculos.mvc.vista.grafica.Mensajes;
 import java.io.IOException;
@@ -34,57 +34,42 @@ import javafx.stage.Stage;
  *
  * @author pc
  */
-public class FXMLVehiclesSearchController
+public class FXMLClientsRentsController
 {
 
     private double xOffset = 0;
     private double yOffset = 0;
 
     @FXML
-    private TextField tFDisponible, tFMarca, tFModelo, tFMatricula, tFCilindrada, tFNumeroP, tFPma, tFBuscar;
+    private TextField tFVigente, tFCliente, tFVehiculo, tFFechaI, tFFechaF, tFPrecio;
 
     @FXML
-    private ListView<String> lista;
+    private ListView<Alquiler> lista;
 
     @FXML
-    private Button btn_accept, btn_cancel, btn_delete;
+    private Button btn_cancel, btn_delete;
 
     @FXML
     private void handleScreenButtonsAction(ActionEvent event) throws IOException
     {
-        if (event.getSource() == btn_accept)
+        if (event.getSource() == btn_delete)
         {
-            if (Vehiculo.compruebaMatricula(tFBuscar.getText()))
+            try
             {
-                Vehiculo vehiculo = JavaFXMainStage.controlador.buscarVehiculo(tFBuscar.getText());
-                displayTextFields(vehiculo);
-            } else
-            {
-                Mensajes.mostrarError("Clientes", "Matrícula incorrecta.");
-            }
+                String matriculaString = lista.getSelectionModel().getSelectedItem().getVehiculo().getMatricula();
+                JavaFXMainStage.controlador.cerrarAlquiler(matriculaString);
+                JavaFXMainStage.controlador.modelo.escribirAlquileres();
+                Mensajes.mostrarInfo("Clientes", "Cerrado.");
+                lista.refresh();
 
-        } else if (event.getSource() == btn_delete)
-        {
-            String matriculaString = lista.getSelectionModel().getSelectedItem().toString();
-            JavaFXMainStage.controlador.borrarVehiculo(matriculaString);
-            JavaFXMainStage.controlador.modelo.escribirVehiculos();
-            Mensajes.mostrarInfo("Vehiculos", "Eliminado.");
-            listarVehiculos();
+            } catch (ExcepcionAlquilerVehiculos e)
+            {
+                Mensajes.mostrarError("Clientes", e.getMessage());
+            }
         } else if (event.getSource() == btn_cancel)
         {
-            loadScene(event, "../FXMLTopBar.fxml");
+            loadScene(event, "../FXMLClientSearch.fxml");
         }
-    }
-
-    private void displayTextFields(Vehiculo vehiculo)
-    {
-        tFDisponible.setText(vehiculo.getDisponibleToString() + " " + vehiculo.getTipoVehiculo().toString());
-        tFMarca.setText(vehiculo.getMarca());
-        tFModelo.setText(vehiculo.getModelo());
-        tFMatricula.setText(vehiculo.getMatricula());
-        tFCilindrada.setText(String.valueOf(vehiculo.getDatosTecnicos().getCilindrada()));
-        tFNumeroP.setText(String.valueOf(vehiculo.getDatosTecnicos().getNumeroPlazas()));
-        tFPma.setText(String.valueOf(vehiculo.getDatosTecnicos().getPma()));
     }
 
     private void loadScene(ActionEvent event, String fxmlString) throws IOException
@@ -95,7 +80,13 @@ public class FXMLVehiclesSearchController
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         moveScene(root1, stage);
         stage.setScene(scene1);
-        stage.show();        
+        stage.show();
+    }
+
+    @FXML
+    private String initData(Cliente cliente)
+    {
+        return cliente.getNombre();
     }
 
     private void moveScene(Parent root1, Stage stage)
@@ -110,7 +101,6 @@ public class FXMLVehiclesSearchController
             }
         }
         );
-
         root1.setOnMouseDragged(new EventHandler<MouseEvent>()
         {
             @Override
@@ -123,17 +113,25 @@ public class FXMLVehiclesSearchController
         );
     }
 
+    private void displayTextFields(Alquiler alquiler)
+    {
+        tFVigente.setText(alquiler.getVehiculo().getTipoVehiculo().toString() + " " + alquiler.getEstadoAlquilerString());
+        tFCliente.setText(alquiler.getCliente().getNombre());
+        tFVehiculo.setText(alquiler.getVehiculo().getMatricula());
+        tFFechaI.setText(alquiler.getFechaInicioAlquiler().toString());
+        tFPrecio.setText(String.valueOf(alquiler.getPrecioSegunDias(alquiler.getDuracionAlquiler())) + "Euros");
+    }
+
     @FXML
     private void listClicked(MouseEvent event)
     {
-        String matriculaString = lista.getSelectionModel().getSelectedItem().toString();
         try
         {
-            Vehiculo vehiculo = JavaFXMainStage.controlador.buscarVehiculo(matriculaString);
-            displayTextFields(vehiculo);
+            Alquiler alquiler = lista.getSelectionModel().getSelectedItem();
+            displayTextFields(alquiler);
         } catch (ExcepcionAlquilerVehiculos e)
         {
-            Mensajes.mostrarError("Vehiculos", e.getMessage());
+            Mensajes.mostrarError("Alquileres", e.getMessage());
         }
     }
 
@@ -143,17 +141,19 @@ public class FXMLVehiclesSearchController
     @FXML
     public void initialize()
     {
-        listarVehiculos();
+        try
+        {
+            listarAlquileres();
+        } catch (IOException e)
+        {
+            Mensajes.mostrarError("Clientes", "Sin alquileres");
+        }
     }
 
-    private void listarVehiculos()
+    private void listarAlquileres() throws IOException
     {
-        ObservableList<String> vehiculos = FXCollections.observableArrayList();
-        for (Vehiculo vehiculo : JavaFXMainStage.controlador.obtenerVehiculos())
-        {
-            vehiculos.add(vehiculo.getMatricula());
-        }
-        lista.setItems(vehiculos);
+        ObservableList<Alquiler> alquileres = FXCollections.observableArrayList(JavaFXMainStage.controlador.obtenerAlquileresCliente(""));
+        lista.setItems(alquileres);
     }
 
 }

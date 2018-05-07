@@ -8,7 +8,9 @@ package alquilervehiculos.mvc.vista.grafica;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +29,9 @@ import javafx.stage.Stage;
  */
 public class FXMLTopBarController implements Initializable
 {
+
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     @FXML
     private ImageView img_clients, img_vehicles, img_rents, img_door;
@@ -57,9 +62,7 @@ public class FXMLTopBarController implements Initializable
             v_rents.setVisible(true);
         } else if (event.getTarget() == img_door)
         {
-            v_clients.setVisible(false);
-            v_vehicles.setVisible(false);
-            v_rents.setVisible(false);
+            Platform.exit();
         }
     }
 
@@ -68,47 +71,59 @@ public class FXMLTopBarController implements Initializable
     {
         if (event.getSource() == btn_c_new)
         {
-            Parent parentNewClientsView = FXMLLoader.load(getClass().getResource("clients/FXMLClientsNew.fxml"));
-            Scene newClientsScene = new Scene(parentNewClientsView);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(newClientsScene);
-            stage.show();
+            sceneLoad(event, "clients/FXMLClientsNew.fxml");
         } else if (event.getSource() == btn_c_search)
         {
-            Parent parentSearchClientsView = FXMLLoader.load(getClass().getResource("clients/FXMLClientSearch.fxml"));
-            Scene searchClientsScene = new Scene(parentSearchClientsView);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(searchClientsScene);
-            stage.show();
+            sceneLoad(event, "clients/FXMLClientSearch.fxml");
         } else if (event.getSource() == btn_v_new)
         {
-            Parent parentSearchClientsView = FXMLLoader.load(getClass().getResource("vehicles/FXMLVehiclesNew.fxml"));
-            Scene searchClientsScene = new Scene(parentSearchClientsView);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(searchClientsScene);
-            stage.show();
+            sceneLoad(event, "vehicles/FXMLVehiclesNew.fxml");
         } else if (event.getSource() == btn_v_search)
         {
-            Parent parentSearchClientsView = FXMLLoader.load(getClass().getResource("vehicles/FXMLVehiclesSearch.fxml"));
-            Scene searchClientsScene = new Scene(parentSearchClientsView);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(searchClientsScene);
-            stage.show();            
+            sceneLoad(event, "vehicles/FXMLVehiclesSearch.fxml");
         } else if (event.getSource() == btn_r_new)
         {
-            Parent parentSearchClientsView = FXMLLoader.load(getClass().getResource("rents/FXMLRentsNew.fxml"));
-            Scene searchClientsScene = new Scene(parentSearchClientsView);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(searchClientsScene);
-            stage.show();            
+            sceneLoad(event, "rents/FXMLRentsNew.fxml");
         } else if (event.getSource() == btn_r_search)
         {
-            Parent parentSearchClientsView = FXMLLoader.load(getClass().getResource("rents/FXMLRentsSearch.fxml"));
-            Scene searchClientsScene = new Scene(parentSearchClientsView);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(searchClientsScene);
-            stage.show();            
+            sceneLoad(event, "rents/FXMLRentsSearch.fxml");
         }
+    }
+
+    private void sceneLoad(ActionEvent event, String fxmlFile) throws IOException
+    {
+        Parent parentView = FXMLLoader.load(getClass().getResource(fxmlFile));
+        Scene Scene = new Scene(parentView);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        sceneMove(parentView, stage);
+        stage.setScene(Scene);
+        stage.show();
+    }
+    
+
+    private void sceneMove(Parent parent, Stage stage)
+    {
+        parent.setOnMousePressed(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        }
+        );
+
+        parent.setOnMouseDragged(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        }
+        );
     }
 
     @Override
