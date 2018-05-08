@@ -10,16 +10,15 @@ import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
 import alquilervehiculos.mvc.modelo.dominio.vehiculo.Vehiculo;
 import alquilervehiculos.mvc.vista.grafica.JavaFXMainStage;
 import alquilervehiculos.mvc.vista.grafica.Mensajes;
+import alquilervehiculos.mvc.vista.grafica.clients.clientsrents.FXMLClientsRentsController;
+import alquilervehiculos.mvc.vista.grafica.vehicles.vehiclesrents.FXMLVehiclesRentsController;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -56,11 +56,12 @@ public class FXMLVehiclesSearchController
         {
             if (Vehiculo.compruebaMatricula(tFBuscar.getText()))
             {
-                Vehiculo vehiculo = JavaFXMainStage.controlador.buscarVehiculo(tFBuscar.getText());
-                displayTextFields(vehiculo);
+                String matricula = tFBuscar.getText();
+                Vehiculo vehiculo = JavaFXMainStage.controlador.buscarVehiculo(matricula);
+                showVehiclesRents(event, vehiculo);
             } else
             {
-                Mensajes.mostrarError("Clientes", "Matrícula incorrecta.");
+                Mensajes.mostrarError("Vehículos", "Matrícula incorrecta.");
             }
 
         } else if (event.getSource() == btn_delete)
@@ -96,6 +97,20 @@ public class FXMLVehiclesSearchController
         moveScene(root1, stage);
         stage.setScene(scene1);
         stage.show();        
+    }
+    
+    public void showVehiclesRents(ActionEvent event, Vehiculo vehiculo) throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("vehiclesrents/FXMLVehiclesRents.fxml"));
+        Scene scene2 = new Scene((Pane) loader.load());
+        scene2.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        FXMLVehiclesRentsController vehiclesRentsController = loader.<FXMLVehiclesRentsController>getController();
+        vehiclesRentsController.initData(vehiculo);
+
+        stage.setScene(scene2);
+        stage.show();
     }
 
     private void moveScene(Parent root1, Stage stage)

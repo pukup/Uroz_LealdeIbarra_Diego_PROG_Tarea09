@@ -11,15 +11,12 @@ import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
 import alquilervehiculos.mvc.vista.grafica.JavaFXMainStage;
 import alquilervehiculos.mvc.vista.grafica.Mensajes;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -48,6 +45,7 @@ public class FXMLClientsRentsController
 
     @FXML
     private Button btn_cancel, btn_delete;
+    private String stringDni;
 
     @FXML
     private void handleScreenButtonsAction(ActionEvent event) throws IOException
@@ -84,9 +82,9 @@ public class FXMLClientsRentsController
     }
 
     @FXML
-    private String initData(Cliente cliente)
+    public void initData(Cliente cliente)
     {
-        return cliente.getNombre();
+        this.stringDni = cliente.getDni();
     }
 
     private void moveScene(Parent root1, Stage stage)
@@ -119,7 +117,15 @@ public class FXMLClientsRentsController
         tFCliente.setText(alquiler.getCliente().getNombre());
         tFVehiculo.setText(alquiler.getVehiculo().getMatricula());
         tFFechaI.setText(alquiler.getFechaInicioAlquiler().toString());
-        tFPrecio.setText(String.valueOf(alquiler.getPrecioSegunDias(alquiler.getDuracionAlquiler())) + "Euros");
+        if (alquiler.getAlquilerAbierto())
+        {
+            tFFechaF.setText("El alquiler sigue abierto");
+            tFPrecio.setText(String.valueOf(alquiler.getPrecioSegunDias(1)) + " euros al día");
+        } else
+        {
+            tFFechaF.setText(alquiler.getFechaFinAlquiler().toString());
+            tFPrecio.setText(String.valueOf(alquiler.getPrecioSegunDias(alquiler.getDuracionAlquiler()) + " euros"));
+        }
     }
 
     @FXML
@@ -152,7 +158,7 @@ public class FXMLClientsRentsController
 
     private void listarAlquileres() throws IOException
     {
-        ObservableList<Alquiler> alquileres = FXCollections.observableArrayList(JavaFXMainStage.controlador.obtenerAlquileresCliente(""));
+        ObservableList<Alquiler> alquileres = FXCollections.observableArrayList(JavaFXMainStage.controlador.obtenerAlquileresCliente(stringDni));
         lista.setItems(alquileres);
     }
 

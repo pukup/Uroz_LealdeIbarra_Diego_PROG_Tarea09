@@ -9,6 +9,7 @@ import alquilervehiculos.mvc.modelo.dominio.Cliente;
 import alquilervehiculos.mvc.modelo.dominio.ExcepcionAlquilerVehiculos;
 import alquilervehiculos.mvc.vista.grafica.JavaFXMainStage;
 import alquilervehiculos.mvc.vista.grafica.Mensajes;
+import alquilervehiculos.mvc.vista.grafica.clients.clientsrents.FXMLClientsRentsController;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -53,7 +55,8 @@ public class FXMLClientSearchController
             if (Cliente.formatoDniCorrecto(tFBuscar.getText()))
             {
                 String dniCliente = tFBuscar.getText();
-                loadScene(event, "clientsretns/FXMLClientsRents.fxml");
+                Cliente cliente = JavaFXMainStage.controlador.buscarCliente(dniCliente);
+                showClientsRents(event, cliente);
             } else
             {
                 Mensajes.mostrarError("Clientes", "DNI incorrecto.");
@@ -79,6 +82,20 @@ public class FXMLClientSearchController
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         moveScene(root1, stage);
         stage.setScene(scene1);
+        stage.show();
+    }
+
+    public void showClientsRents(ActionEvent event, Cliente cliente) throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("clientsrents/FXMLClientsRents.fxml"));
+        Scene scene2 = new Scene((Pane) loader.load());
+        scene2.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        FXMLClientsRentsController clientsRentsController = loader.<FXMLClientsRentsController>getController();
+        clientsRentsController.initData(cliente);
+
+        stage.setScene(scene2);
         stage.show();
     }
 
